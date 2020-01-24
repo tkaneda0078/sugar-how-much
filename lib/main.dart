@@ -3,64 +3,84 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  final title = 'Flutter title';
-  final message = 'Flutter Message';
+  final appTitle = '糖質計算';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Material Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(
-          title: this.title,
-          message: this.message
-      ),
-    );
+        title: this.appTitle,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text(this.appTitle),
+          ),
+          body: MyHomePage(),
+        ));
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  final String title;
-  final String message;
-
-  MyHomePage({this.title, this.message}) : super();
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _message;
+  final _formKey = GlobalKey<FormState>();
 
-  @override
-  void initState() {
-    super.initState();
-    this._message = 'hello';
-  }
+  /// 炭水化物
+  /// int
+  int carbohydrateQuantity = 0;
 
-  void _setMessage() {
+  void _updateCarbohydrateQuantity(int carbohydrateQuantity) {
     setState(() {
-      this._message = 'tap now';
+      this.carbohydrateQuantity = carbohydrateQuantity;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: <Widget>[
+          this.carbohydrateQuantityFormField(context),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: RaisedButton(
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
+                  Scaffold.of(context)
+                      .showSnackBar(SnackBar(content: Text('成功')));
+                }
+              },
+              child: Text('submit'),
+            ),
+          )
+        ],
       ),
-      body: Text(
-        this._message,
-        style: TextStyle(fontSize: 32),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _setMessage,
-        tooltip: 'set message',
-        child: Icon(Icons.star),
-      ),
+    );
+  }
+
+  /// 炭水化物用FormField
+  TextFormField carbohydrateQuantityFormField(BuildContext context) {
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      textInputAction: TextInputAction.next,
+      validator: (value) {
+        if (value.isEmpty) {
+          return '入力してください。';
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          labelText: '炭水化物を入力してください。',
+          hintText: '123',
+          icon: Icon(Icons.device_unknown)),
+      onSaved: (value) {
+        _updateCarbohydrateQuantity(int.parse(value));
+      },
     );
   }
 }
