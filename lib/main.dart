@@ -27,32 +27,52 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
+
+  /// 糖質
+  /// int
+  int sugars;
 
   /// 炭水化物
   /// int
-  int carbohydrateQuantity = 0;
+  int carbohydrateQuantity;
 
-  void _updateCarbohydrateQuantity(int carbohydrateQuantity) {
+  /// 食物繊維
+  /// int
+  int dietaryFiber;
+
+  void updateCarbohydrateQuantity(int carbohydrateQuantity) {
     setState(() {
       this.carbohydrateQuantity = carbohydrateQuantity;
     });
   }
 
+  void updateDietaryFiber(int dietaryFiber) {
+    setState(() {
+      this.dietaryFiber = dietaryFiber;
+    });
+  }
+
+  /// 糖質値を出力する
+  /// return int
+  int outputSugars() => this.carbohydrateQuantity - this.dietaryFiber;
+
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: formKey,
       child: Column(
         children: <Widget>[
           this.carbohydrateQuantityFormField(context),
+          this.dietaryFiberFormField(context),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: RaisedButton(
               onPressed: () {
-                if (_formKey.currentState.validate()) {
-                  Scaffold.of(context)
-                      .showSnackBar(SnackBar(content: Text('成功')));
+                if (formKey.currentState.validate()) {
+                  formKey.currentState.save();
+                  Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text('糖質：${this.outputSugars()}')));
                 }
               },
               child: Text('submit'),
@@ -79,7 +99,28 @@ class _MyHomePageState extends State<MyHomePage> {
           hintText: '123',
           icon: Icon(Icons.device_unknown)),
       onSaved: (value) {
-        _updateCarbohydrateQuantity(int.parse(value));
+        updateCarbohydrateQuantity(int.parse(value));
+      },
+    );
+  }
+
+  /// 食物繊維用FormField
+  TextFormField dietaryFiberFormField(BuildContext context) {
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      textInputAction: TextInputAction.next,
+      validator: (value) {
+        if (value.isEmpty) {
+          return '入力してください。';
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          labelText: '食物繊維を入力してください。',
+          hintText: '123',
+          icon: Icon(Icons.device_unknown)),
+      onSaved: (value) {
+        updateDietaryFiber(int.parse(value));
       },
     );
   }
