@@ -53,6 +53,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void updateSugars(int carbohydrateQuantity, int dietaryFiber) {
+    setState(() {
+      this.sugars = carbohydrateQuantity - dietaryFiber;
+    });
+  }
+
   /// 糖質値を出力する
   /// return int
   int outputSugars() => this.carbohydrateQuantity - this.dietaryFiber;
@@ -68,16 +74,19 @@ class _MyHomePageState extends State<MyHomePage> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: RaisedButton(
+              // 送信ボタンクリック時の処理
               onPressed: () {
                 if (formKey.currentState.validate()) {
                   formKey.currentState.save();
-                  Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text('糖質：${this.outputSugars()}')));
+                  this.updateSugars(
+                      this.carbohydrateQuantity, this.dietaryFiber
+                  );
                 }
               },
               child: Text('submit'),
             ),
-          )
+          ),
+          Text(this.sugars != null ? this.sugars.toString() : ''),
         ],
       ),
     );
