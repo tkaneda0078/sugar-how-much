@@ -16,7 +16,12 @@ class MyApp extends StatelessWidget {
           appBar: AppBar(
             title: Text(this.appTitle),
           ),
-          body: MyHomePage(),
+          body: Container(
+            margin: EdgeInsets.only(
+                left: 20.0, top: 30.0, right: 20.0, bottom: 30.0
+            ),
+            child: MyHomePage(),
+          ),
         ));
   }
 }
