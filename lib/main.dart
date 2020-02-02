@@ -71,6 +71,12 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           this.carbohydrateQuantityFormField(context),
           this.dietaryFiberFormField(context),
+          RichText(
+            text: TextSpan(
+              text: this.sugars != null ? this.sugars.toString() : '',
+              style: TextStyle(color: Colors.blue, fontSize: 50),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: RaisedButton(
@@ -86,7 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('submit'),
             ),
           ),
-          Text(this.sugars != null ? this.sugars.toString() : ''),
         ],
       ),
     );
