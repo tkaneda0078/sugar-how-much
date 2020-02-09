@@ -15,14 +15,44 @@ class MyApp extends StatelessWidget {
         title: Text('糖質計算'),
       ),
       body: Center(
-        child: RaisedButton(
-          child: Text('計算する'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MyHomePage()),
-            );
-          },
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            RichText(
+              text: TextSpan(
+                text: '炭水化物と植物繊維の表示はある？',
+                style: TextStyle(
+                  color: Colors.black.withOpacity(0.8),
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            Row(
+              // 各ボタン間のスペースを均等
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                RaisedButton(
+                  child: Text('ある'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyHomePage()),
+                    );
+                  },
+                ),
+                RaisedButton(
+                  child: Text('ない'),
+                  onPressed: () {
+                    // TODO: 別画面
+//                    Navigator.push(
+//                      context,
+//                      MaterialPageRoute(builder: (context) => ),
+//                    );
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
