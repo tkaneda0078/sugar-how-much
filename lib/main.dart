@@ -79,19 +79,19 @@ class _MyHomePageState extends State<MyHomePage> {
   /// int
   int dietaryFiber;
 
-  void updateCarbohydrateQuantity(int carbohydrateQuantity) {
+  void _updateCarbohydrateQuantity(int carbohydrateQuantity) {
     setState(() {
       this.carbohydrateQuantity = carbohydrateQuantity;
     });
   }
 
-  void updateDietaryFiber(int dietaryFiber) {
+  void _updateDietaryFiber(int dietaryFiber) {
     setState(() {
       this.dietaryFiber = dietaryFiber;
     });
   }
 
-  void updateSugars(int carbohydrateQuantity, int dietaryFiber) {
+  void _updateSugars(int carbohydrateQuantity, int dietaryFiber) {
     setState(() {
       this.sugars = carbohydrateQuantity - dietaryFiber;
     });
@@ -127,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () {
                     if (formKey.currentState.validate()) {
                       formKey.currentState.save();
-                      this.updateSugars(
+                      this._updateSugars(
                           this.carbohydrateQuantity, this.dietaryFiber);
                     }
                   },
@@ -163,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
           hintText: '123',
           icon: Icon(Icons.device_unknown)),
       onSaved: (value) {
-        updateCarbohydrateQuantity(int.parse(value));
+        _updateCarbohydrateQuantity(int.parse(value));
       },
     );
   }
@@ -184,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
           hintText: '123',
           icon: Icon(Icons.device_unknown)),
       onSaved: (value) {
-        updateDietaryFiber(int.parse(value));
+        _updateDietaryFiber(int.parse(value));
       },
     );
   }
