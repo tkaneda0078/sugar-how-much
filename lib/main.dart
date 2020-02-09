@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MaterialApp(
+    title: '糖質計算',
+    home: MyApp(),
+  ));
+}
 
 class MyApp extends StatelessWidget {
-  final appTitle = '糖質計算';
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: this.appTitle,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('糖質計算'),
+      ),
+      body: Center(
+        child: RaisedButton(
+          child: Text('計算する'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyHomePage()),
+            );
+          },
         ),
-        home: Scaffold(
-          appBar: AppBar(
-            title: Text(this.appTitle),
-          ),
-          body: Container(
-            margin: EdgeInsets.only(
-                left: 20.0, top: 30.0, right: 20.0, bottom: 30.0
-            ),
-            child: MyHomePage(),
-          ),
-        ));
+      ),
+    );
   }
 }
 
@@ -70,34 +73,46 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: formKey,
-      child: Column(
-        children: <Widget>[
-          this.carbohydrateQuantityFormField(context),
-          this.dietaryFiberFormField(context),
-          RichText(
-            text: TextSpan(
-              text: this.sugars != null ? this.sugars.toString() : '',
-              style: TextStyle(color: Colors.blue, fontSize: 50),
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('糖質計算'),
+      ),
+      body: Center(
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: <Widget>[
+              this.carbohydrateQuantityFormField(context),
+              this.dietaryFiberFormField(context),
+              RichText(
+                text: TextSpan(
+                  text: this.sugars != null ? this.sugars.toString() : '',
+                  style: TextStyle(color: Colors.blue, fontSize: 50),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: RaisedButton(
+                  // 送信ボタンクリック時の処理
+                  onPressed: () {
+                    if (formKey.currentState.validate()) {
+                      formKey.currentState.save();
+                      this.updateSugars(
+                          this.carbohydrateQuantity, this.dietaryFiber);
+                    }
+                  },
+                  child: Text('submit'),
+                ),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('戻る'),
+              ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: RaisedButton(
-              // 送信ボタンクリック時の処理
-              onPressed: () {
-                if (formKey.currentState.validate()) {
-                  formKey.currentState.save();
-                  this.updateSugars(
-                      this.carbohydrateQuantity, this.dietaryFiber
-                  );
-                }
-              },
-              child: Text('submit'),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
