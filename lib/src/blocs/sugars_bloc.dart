@@ -1,0 +1,34 @@
+import 'dart:async';
+
+/// 炭水化物と食物繊維の記載があるパターン
+class CalculateFirstPatternEvent {
+  final int carbohydrateQuantity;
+  final int dietaryFiber;
+
+  CalculateFirstPatternEvent(this.carbohydrateQuantity, this.dietaryFiber);
+}
+
+class SugarsBloc {
+  final _calculateFirstPatternController =
+      StreamController<CalculateFirstPatternEvent>();
+
+  Sink<CalculateFirstPatternEvent> get calculate =>
+      _calculateFirstPatternController.sink;
+
+  final _resultController = StreamController<int>();
+
+  Stream<int> get sugars => _resultController.stream;
+
+  SugarsBloc() {
+    _calculateFirstPatternController.stream
+        .listen((CalculateFirstPatternEvent event) {
+      _resultController.sink
+          .add(event.carbohydrateQuantity - event.dietaryFiber);
+    });
+  }
+
+  void dispose() {
+    _calculateFirstPatternController.close();
+    _resultController.close();
+  }
+}
