@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sugars_check/src/widgets/screens/calculate_first_pattern_screen.dart';
+import 'package:sugars_check/src/widgets/screens/calculate_second_pattern_screen.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -35,7 +36,11 @@ class HomePage extends StatelessWidget {
                 RaisedButton(
                   child: Text('ない'),
                   onPressed: () {
-                    // TODO: 別画面
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CalculateSecondPatternScreen()),
+                    );
                   },
                 ),
               ],
