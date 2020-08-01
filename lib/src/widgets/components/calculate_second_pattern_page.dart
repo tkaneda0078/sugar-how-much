@@ -48,7 +48,12 @@ class CalculateSecondPatternPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: RaisedButton(
-                  // 送信ボタンクリック時の処理
+                  child: Text('submit'),
+                  color: Colors.yellow, // TODO: カラー変更
+                  shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  /// 送信ボタンクリック時の処理
                   onPressed: () {
                     if (formKey.currentState.validate()) {
                       formKey.currentState.save();
@@ -56,14 +61,17 @@ class CalculateSecondPatternPage extends StatelessWidget {
                           this.carbohydrateQuantity, this.dietaryFiber);
                     }
                   },
-                  child: Text('submit'),
                 ),
               ),
               RaisedButton(
+                child: Text('戻る'),
+                color: Colors.yellow, // TODO: カラー変更
+                shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('戻る'),
               ),
             ],
           ),

@@ -3,6 +3,7 @@ import 'package:sugars_check/src/blocs/sugars_bloc.dart';
 
 /// 炭水化物と食物繊維の記載があるパターンの計算画面
 class CalculateFirstPatternPage extends StatelessWidget {
+
   /// 炭水化物
   /// int
   int carbohydrateQuantity;
@@ -47,7 +48,12 @@ class CalculateFirstPatternPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: RaisedButton(
-                  // 送信ボタンクリック時の処理
+                  child: Text('submit'),
+                  color: Colors.yellow, // TODO: カラー変更
+                  shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  /// 送信ボタンクリック時の処理
                   onPressed: () {
                     if (formKey.currentState.validate()) {
                       formKey.currentState.save();
@@ -55,14 +61,17 @@ class CalculateFirstPatternPage extends StatelessWidget {
                           this.carbohydrateQuantity, this.dietaryFiber);
                     }
                   },
-                  child: Text('submit'),
                 ),
               ),
               RaisedButton(
+                child: Text('戻る'),
+                color: Colors.yellow, // TODO: カラー変更
+                shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('戻る'),
               ),
             ],
           ),

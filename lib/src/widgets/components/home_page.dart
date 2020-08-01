@@ -20,11 +20,15 @@ class HomePage extends StatelessWidget {
               ),
             ),
             Row(
-              // 各ボタン間のスペースを均等
+              /// 各ボタン間のスペースを均等
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 RaisedButton(
                   child: Text('ある'),
+                  color: Colors.yellow, // TODO: カラー変更
+                  shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -35,6 +39,10 @@ class HomePage extends StatelessWidget {
                 ),
                 RaisedButton(
                   child: Text('ない'),
+                  color: Colors.yellow, // TODO: カラー変更
+                  shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                   onPressed: () {
                     Navigator.push(
                       context,
