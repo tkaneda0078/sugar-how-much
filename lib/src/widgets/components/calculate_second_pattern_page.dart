@@ -48,7 +48,7 @@ class CalculateSecondPatternPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: RaisedButton(
-                  child: Text('submit'),
+                  child: Text('計算する'),
                   color: Colors.yellow, // TODO: カラー変更
                   shape: BeveledRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
