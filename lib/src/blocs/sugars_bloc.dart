@@ -31,4 +31,8 @@ class SugarsBloc {
     _calculateFirstPatternController.close();
     _resultController.close();
   }
+
+  void resetCalculationResult() {
+    calculate.add(CalculateFirstPatternEvent(0, 0));
+  }
 }

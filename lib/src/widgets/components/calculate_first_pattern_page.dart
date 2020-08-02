@@ -38,9 +38,9 @@ class CalculateFirstPatternPage extends StatelessWidget {
                   builder: (context, snapshot) {
                     return RichText(
                       text: TextSpan(
-                        text: snapshot.data != null
-                            ? snapshot.data.toString()
-                            : '',
+                        text: snapshot.data == null || snapshot.data == 0
+                            ? ''
+                            : snapshot.data.toString(),
                         style: TextStyle(color: Colors.blue, fontSize: 50),
                       ),
                     );
@@ -64,13 +64,14 @@ class CalculateFirstPatternPage extends StatelessWidget {
                 ),
               ),
               RaisedButton(
-                child: Text('戻る'),
+                child: Text('リセット'),
                 color: Colors.yellow, // TODO: カラー変更
                 shape: BeveledRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  formKey.currentState.reset();
+                  sugarsBloc.resetCalculationResult();
                 },
               ),
             ],
