@@ -27,12 +27,17 @@ class SugarsBloc {
     });
   }
 
-  void dispose() {
-    _calculateFirstPatternController.close();
-    _resultController.close();
+  void calculateSugar(int carbohydrateQuantity, int dietaryFiber) {
+    calculate
+        .add(CalculateFirstPatternEvent(carbohydrateQuantity, dietaryFiber));
   }
 
   void resetCalculationResult() {
     calculate.add(CalculateFirstPatternEvent(0, 0));
+  }
+
+  void dispose() {
+    _calculateFirstPatternController.close();
+    _resultController.close();
   }
 }

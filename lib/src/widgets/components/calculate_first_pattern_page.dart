@@ -15,11 +15,6 @@ class CalculateFirstPatternPage extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   final SugarsBloc sugarsBloc = SugarsBloc();
 
-  void calculate(int carbohydrateQuantity, int dietaryFiber) {
-    sugarsBloc.calculate
-        .add(CalculateFirstPatternEvent(carbohydrateQuantity, dietaryFiber));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,11 +48,12 @@ class CalculateFirstPatternPage extends StatelessWidget {
                   shape: BeveledRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
+
                   /// 送信ボタンクリック時の処理
                   onPressed: () {
                     if (formKey.currentState.validate()) {
                       formKey.currentState.save();
-                      this.calculate(
+                      sugarsBloc.calculateSugar(
                           this.carbohydrateQuantity, this.dietaryFiber);
                     }
                   },
