@@ -31,12 +31,19 @@ class CalculateFirstPatternPage extends StatelessWidget {
               StreamBuilder(
                   stream: sugarsBloc.sugars,
                   builder: (context, snapshot) {
+                    if (snapshot.data == null || snapshot.data == 0) {
+                      return Text('');
+                    }
+
                     return RichText(
                       text: TextSpan(
-                        text: snapshot.data == null || snapshot.data == 0
-                            ? ''
-                            : snapshot.data.toString(),
+                        text: snapshot.data['calculationResult'].toString(),
                         style: TextStyle(color: Colors.blue, fontSize: 50),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: snapshot.data['sugarDegreeText'].toString() // TODO: レイアウト調整
+                          )
+                        ],
                       ),
                     );
                   }),

@@ -15,15 +15,17 @@ class SugarsBloc {
   Sink<CalculateFirstPatternEvent> get calculate =>
       _calculateFirstPatternController.sink;
 
-  final _resultController = StreamController<int>();
+  final _resultController = StreamController<Map>();
 
-  Stream<int> get sugars => _resultController.stream;
+  Stream<Map> get sugars => _resultController.stream;
 
   SugarsBloc() {
     _calculateFirstPatternController.stream
         .listen((CalculateFirstPatternEvent event) {
-      _resultController.sink
-          .add(event.carbohydrateQuantity - event.dietaryFiber);
+      _resultController.sink.add({
+        'calculationResult': event.carbohydrateQuantity - event.dietaryFiber,
+        'sugarDegreeText': 'test' // TODO: メソッドから糖質度合のテキストを取得
+      });
     });
   }
 
