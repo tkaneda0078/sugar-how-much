@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:sugars_check/src/resources/helpers/calculation_result_view_helper.dart';
 
 /// 炭水化物と食物繊維の記載があるパターン
 class CalculateFirstPatternEvent {
@@ -22,9 +23,11 @@ class SugarsBloc {
   SugarsBloc() {
     _calculateFirstPatternController.stream
         .listen((CalculateFirstPatternEvent event) {
+      var calculationResult = event.carbohydrateQuantity - event.dietaryFiber; // TODO: 小数点計算できていない
       _resultController.sink.add({
-        'calculationResult': event.carbohydrateQuantity - event.dietaryFiber,
-        'sugarDegreeText': 'test' // TODO: メソッドから糖質度合のテキストを取得
+        'calculationResult': calculationResult,
+        'sugarDegreeText': CalculationResultViewHelper()
+            .getSugarDegreeText(calculationResult)
       });
     });
   }
