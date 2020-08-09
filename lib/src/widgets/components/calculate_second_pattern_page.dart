@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sugars_check/src/blocs/sugars_bloc.dart';
+import 'package:sugars_check/src/blocs/show_only_carbohydrates_sugar_bloc.dart';
 
 /// 炭水化物のみの記載パターンの計算画面
 class CalculateSecondPatternPage extends StatelessWidget {
-
   /// 総カロリー
   /// double
   double totalCalories;
@@ -17,12 +16,8 @@ class CalculateSecondPatternPage extends StatelessWidget {
   double protein;
 
   final formKey = GlobalKey<FormState>();
-  final SugarsBloc sugarsBloc = SugarsBloc();
-
-  void calculate(double carbohydrateQuantity, double dietaryFiber) {
-    sugarsBloc.calculate
-        .add(CalculateFirstPatternEvent(carbohydrateQuantity, dietaryFiber));
-  }
+  final ShowOnlyCarbohydratesSugarBloc sugarsBloc =
+      ShowOnlyCarbohydratesSugarBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +36,19 @@ class CalculateSecondPatternPage extends StatelessWidget {
               StreamBuilder(
                   stream: sugarsBloc.sugars,
                   builder: (context, snapshot) {
+                    if (snapshot.data == null || snapshot.data == 0) {
+                      return Text('');
+                    }
+
                     return RichText(
                       text: TextSpan(
-                        text: snapshot.data != null
-                            ? snapshot.data.toString()
-                            : '',
+                        text: snapshot.data['calculationResult'].toString(),
                         style: TextStyle(color: Colors.blue, fontSize: 50),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: snapshot.data['sugarDegreeText'].toString() // TODO: レイアウト調整
+                          )
+                        ],
                       ),
                     );
                   }),
@@ -58,24 +60,26 @@ class CalculateSecondPatternPage extends StatelessWidget {
                   shape: BeveledRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
+
                   /// 送信ボタンクリック時の処理
                   onPressed: () {
                     if (formKey.currentState.validate()) {
                       formKey.currentState.save();
-//                      this.calculate(
-//                          this.carbohydrateQuantity, this.dietaryFiber);
+                      sugarsBloc.calculateSugar(
+                          this.totalCalories, this.lipid, this.protein);
                     }
                   },
                 ),
               ),
               RaisedButton(
-                child: Text('戻る'),
+                child: Text('リセット'),
                 color: Colors.yellow, // TODO: カラー変更
                 shape: BeveledRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  formKey.currentState.reset();
+                  sugarsBloc.resetCalculationResult();
                 },
               ),
             ],
