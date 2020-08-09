@@ -5,12 +5,12 @@ import 'package:sugars_check/src/blocs/sugars_bloc.dart';
 class CalculateFirstPatternPage extends StatelessWidget {
 
   /// 炭水化物
-  /// int
-  int carbohydrateQuantity;
+  /// double
+  double carbohydrateQuantity;
 
   /// 食物繊維
-  /// int
-  int dietaryFiber;
+  /// double
+  double dietaryFiber;
 
   final formKey = GlobalKey<FormState>();
   final SugarsBloc sugarsBloc = SugarsBloc();
@@ -100,7 +100,7 @@ class CalculateFirstPatternPage extends StatelessWidget {
           hintText: '123',
           icon: Icon(Icons.device_unknown)),
       onSaved: (value) {
-        this.carbohydrateQuantity = int.parse(value);
+        this.carbohydrateQuantity = double.parse(value);
       },
     );
   }
@@ -121,7 +121,7 @@ class CalculateFirstPatternPage extends StatelessWidget {
           hintText: '123',
           icon: Icon(Icons.device_unknown)),
       onSaved: (value) {
-        this.dietaryFiber = int.parse(value);
+        this.dietaryFiber = double.parse(value);
       },
     );
   }

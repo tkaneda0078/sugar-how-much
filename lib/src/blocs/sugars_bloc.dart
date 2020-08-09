@@ -3,8 +3,8 @@ import 'package:sugars_check/src/resources/helpers/calculation_result_view_helpe
 
 /// 炭水化物と食物繊維の記載があるパターン
 class CalculateFirstPatternEvent {
-  final int carbohydrateQuantity;
-  final int dietaryFiber;
+  final double carbohydrateQuantity;
+  final double dietaryFiber;
 
   CalculateFirstPatternEvent(this.carbohydrateQuantity, this.dietaryFiber);
 }
@@ -32,13 +32,13 @@ class SugarsBloc {
     });
   }
 
-  void calculateSugar(int carbohydrateQuantity, int dietaryFiber) {
+  void calculateSugar(double carbohydrateQuantity, double dietaryFiber) {
     calculate
         .add(CalculateFirstPatternEvent(carbohydrateQuantity, dietaryFiber));
   }
 
   void resetCalculationResult() {
-    calculate.add(CalculateFirstPatternEvent(0, 0));
+    _resultController.sink.add(null);
   }
 
   void dispose() {
