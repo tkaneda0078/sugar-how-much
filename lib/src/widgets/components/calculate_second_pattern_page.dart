@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:sugars_check/src/blocs/sugars_bloc.dart';
 
-/// 炭水化物と食物繊維の記載がないパターンの計算画面
+/// 炭水化物のみの記載パターンの計算画面
 class CalculateSecondPatternPage extends StatelessWidget {
 
-  /// 炭水化物
+  /// 総カロリー
   /// double
-  double carbohydrateQuantity;
+  double totalCalories;
 
-  /// 食物繊維
+  /// 脂質
   /// double
-  double dietaryFiber;
+  double lipid;
+
+  /// タンパク質
+  /// double
+  double protein;
 
   final formKey = GlobalKey<FormState>();
   final SugarsBloc sugarsBloc = SugarsBloc();
@@ -31,8 +35,9 @@ class CalculateSecondPatternPage extends StatelessWidget {
           key: formKey,
           child: Column(
             children: <Widget>[
-              this.carbohydrateQuantityFormField(context),
-              this.dietaryFiberFormField(context),
+              this.totalCaloriesFormField(context),
+              this.lipidFormField(context),
+              this.proteinFormField(context),
               StreamBuilder(
                   stream: sugarsBloc.sugars,
                   builder: (context, snapshot) {
@@ -57,8 +62,8 @@ class CalculateSecondPatternPage extends StatelessWidget {
                   onPressed: () {
                     if (formKey.currentState.validate()) {
                       formKey.currentState.save();
-                      this.calculate(
-                          this.carbohydrateQuantity, this.dietaryFiber);
+//                      this.calculate(
+//                          this.carbohydrateQuantity, this.dietaryFiber);
                     }
                   },
                 ),
@@ -80,8 +85,8 @@ class CalculateSecondPatternPage extends StatelessWidget {
     );
   }
 
-  /// 炭水化物用FormField
-  TextFormField carbohydrateQuantityFormField(BuildContext context) {
+  /// 総カロリー用FormField
+  TextFormField totalCaloriesFormField(BuildContext context) {
     return TextFormField(
       keyboardType: TextInputType.number,
       textInputAction: TextInputAction.next,
@@ -92,17 +97,17 @@ class CalculateSecondPatternPage extends StatelessWidget {
         return null;
       },
       decoration: InputDecoration(
-          labelText: '炭水化物2を入力してください。', // TODO: リネーム
+          labelText: '総カロリーを入力してください。',
           hintText: '123',
           icon: Icon(Icons.device_unknown)),
       onSaved: (value) {
-        this.carbohydrateQuantity = double.parse(value);
+        this.totalCalories = double.parse(value);
       },
     );
   }
 
-  /// 食物繊維用FormField
-  TextFormField dietaryFiberFormField(BuildContext context) {
+  /// 脂質用FormField
+  TextFormField lipidFormField(BuildContext context) {
     return TextFormField(
       keyboardType: TextInputType.number,
       textInputAction: TextInputAction.next,
@@ -113,11 +118,32 @@ class CalculateSecondPatternPage extends StatelessWidget {
         return null;
       },
       decoration: InputDecoration(
-          labelText: '食物繊維を入力してください。',
+          labelText: '脂質を入力してください。',
           hintText: '123',
           icon: Icon(Icons.device_unknown)),
       onSaved: (value) {
-        this.dietaryFiber = double.parse(value);
+        this.lipid = double.parse(value);
+      },
+    );
+  }
+
+  /// タンパク質用FormField
+  TextFormField proteinFormField(BuildContext context) {
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      textInputAction: TextInputAction.next,
+      validator: (value) {
+        if (value.isEmpty) {
+          return '入力してください。';
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          labelText: 'タンパク質を入力してください。',
+          hintText: '123',
+          icon: Icon(Icons.device_unknown)),
+      onSaved: (value) {
+        this.protein = double.parse(value);
       },
     );
   }
