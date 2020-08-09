@@ -2,11 +2,22 @@ import 'dart:async';
 import 'package:sugars_check/src/resources/helpers/calculation_result_view_helper.dart';
 
 /// 炭水化物と食物繊維の記載があるパターン
+/// TODO: ファイル分けする
 class CalculateFirstPatternEvent {
   final double carbohydrateQuantity;
   final double dietaryFiber;
 
   CalculateFirstPatternEvent(this.carbohydrateQuantity, this.dietaryFiber);
+}
+
+/// 炭水化物のみ記載があるパターン
+/// TODO: ファイル分けする
+class CalculateSecondPatternEvent {
+  final double totalCalories;
+  final double lipid;
+  final double protein;
+
+  CalculateSecondPatternEvent(this.totalCalories, this.lipid, this.protein);
 }
 
 class SugarsBloc {
