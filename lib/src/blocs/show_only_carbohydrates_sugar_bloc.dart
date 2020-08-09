@@ -1,40 +1,29 @@
 import 'dart:async';
 import 'package:sugars_check/src/resources/helpers/calculation_result_view_helper.dart';
 
-/// 炭水化物と食物繊維の記載があるパターン
-/// TODO: ファイル分けする
-class CalculateFirstPatternEvent {
-  final double carbohydrateQuantity;
-  final double dietaryFiber;
-
-  CalculateFirstPatternEvent(this.carbohydrateQuantity, this.dietaryFiber);
-}
-
 /// 炭水化物のみ記載があるパターン
 /// TODO: ファイル分けする
-class CalculateSecondPatternEvent {
+class CalculateEvent {
   final double totalCalories;
   final double lipid;
   final double protein;
 
-  CalculateSecondPatternEvent(this.totalCalories, this.lipid, this.protein);
+  CalculateEvent(this.totalCalories, this.lipid, this.protein);
 }
 
-class SugarsBloc {
-  final _calculateFirstPatternController =
-      StreamController<CalculateFirstPatternEvent>();
+class ShowOnlyCarbohydratesSugarBloc {
+  final _calculateController = StreamController<CalculateEvent>();
 
-  Sink<CalculateFirstPatternEvent> get calculate =>
-      _calculateFirstPatternController.sink;
+  Sink<CalculateEvent> get calculate => _calculateController.sink;
 
   final _resultController = StreamController<Map>();
 
   Stream<Map> get sugars => _resultController.stream;
 
-  SugarsBloc() {
-    _calculateFirstPatternController.stream
-        .listen((CalculateFirstPatternEvent event) {
-      var calculationResult = event.carbohydrateQuantity - event.dietaryFiber;
+  ShowOnlyCarbohydratesSugarBloc() {
+    _calculateController.stream.listen((CalculateEvent event) {
+      // TODO : 計算用の関数作成
+      var calculationResult = event.totalCalories - event.lipid - event.protein;
       _resultController.sink.add({
         'calculationResult': calculationResult,
         'sugarDegreeText': CalculationResultViewHelper()
@@ -43,9 +32,8 @@ class SugarsBloc {
     });
   }
 
-  void calculateSugar(double carbohydrateQuantity, double dietaryFiber) {
-    calculate
-        .add(CalculateFirstPatternEvent(carbohydrateQuantity, dietaryFiber));
+  void calculateSugar(double totalCalories, double lipid, double protein) {
+    calculate.add(CalculateEvent(totalCalories, lipid, protein));
   }
 
   void resetCalculationResult() {
@@ -53,7 +41,7 @@ class SugarsBloc {
   }
 
   void dispose() {
-    _calculateFirstPatternController.close();
+    _calculateController.close();
     _resultController.close();
   }
 }
