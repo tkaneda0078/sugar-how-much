@@ -22,18 +22,22 @@ class ShowOnlyCarbohydratesSugarBloc {
 
   ShowOnlyCarbohydratesSugarBloc() {
     _calculateController.stream.listen((CalculateEvent event) {
-      // TODO : 計算用の関数作成
-      var calculationResult = event.totalCalories - event.lipid - event.protein;
+      var sugar =
+          _calculateSugar(event.totalCalories, event.lipid, event.protein);
       _resultController.sink.add({
-        'calculationResult': calculationResult,
-        'sugarDegreeText': CalculationResultViewHelper()
-            .getSugarDegreeText(calculationResult)
+        'sugar': sugar,
+        'sugarDegreeText':
+            CalculationResultViewHelper().getSugarDegreeText(sugar)
       });
     });
   }
 
-  void calculateSugar(double totalCalories, double lipid, double protein) {
-    calculate.add(CalculateEvent(totalCalories, lipid, protein));
+  /// 炭水化物のみ表示時の計算式
+  /// 糖質(g) = ((総カロリー) – (脂質g × 9) - (タンパク質 g× 4)) ÷ 4
+  double _calculateSugar(double totalCalories, double lipid, double protein) {
+    var sugar = (totalCalories - (lipid * 9) - (protein * 4)) / 4;
+
+    return sugar;
   }
 
   void resetCalculationResult() {

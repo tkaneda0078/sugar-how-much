@@ -42,7 +42,7 @@ class CalculateSecondPatternPage extends StatelessWidget {
 
                     return RichText(
                       text: TextSpan(
-                        text: snapshot.data['calculationResult'].toString(),
+                        text: snapshot.data['sugar'].toString(),
                         style: TextStyle(color: Colors.blue, fontSize: 50),
                         children: <TextSpan>[
                           TextSpan(
@@ -65,8 +65,8 @@ class CalculateSecondPatternPage extends StatelessWidget {
                   onPressed: () {
                     if (formKey.currentState.validate()) {
                       formKey.currentState.save();
-                      sugarsBloc.calculateSugar(
-                          this.totalCalories, this.lipid, this.protein);
+                      sugarsBloc.calculate.add(CalculateEvent(
+                          this.totalCalories, this.lipid, this.protein));
                     }
                   },
                 ),
