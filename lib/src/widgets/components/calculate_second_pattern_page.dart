@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sugars_calculation/src/blocs/show_only_carbohydrates_sugar_bloc.dart';
+import 'package:sugars_calculation/src/resources/helpers/validation_helper.dart';
 
 /// 炭水化物のみの記載パターンの計算画面
 class CalculateSecondPatternPage extends StatelessWidget {
@@ -46,8 +47,9 @@ class CalculateSecondPatternPage extends StatelessWidget {
                         style: TextStyle(color: Colors.blue, fontSize: 50),
                         children: <TextSpan>[
                           TextSpan(
-                              text: snapshot.data['sugarDegreeText'].toString() // TODO: レイアウト調整
-                          )
+                              text: snapshot.data['sugarDegreeText']
+                                  .toString() // TODO: レイアウト調整
+                              )
                         ],
                       ),
                     );
@@ -94,10 +96,16 @@ class CalculateSecondPatternPage extends StatelessWidget {
     return TextFormField(
       keyboardType: TextInputType.number,
       textInputAction: TextInputAction.next,
+      maxLength: 10,
       validator: (value) {
         if (value.isEmpty) {
           return '入力してください。';
         }
+
+        if (!Validator.isNumeric(value)) {
+          return '数字を入力してください。';
+        }
+
         return null;
       },
       decoration: InputDecoration(
@@ -115,10 +123,16 @@ class CalculateSecondPatternPage extends StatelessWidget {
     return TextFormField(
       keyboardType: TextInputType.number,
       textInputAction: TextInputAction.next,
+      maxLength: 10,
       validator: (value) {
         if (value.isEmpty) {
           return '入力してください。';
         }
+
+        if (!Validator.isNumeric(value)) {
+          return '数字を入力してください。';
+        }
+
         return null;
       },
       decoration: InputDecoration(
@@ -136,10 +150,16 @@ class CalculateSecondPatternPage extends StatelessWidget {
     return TextFormField(
       keyboardType: TextInputType.number,
       textInputAction: TextInputAction.next,
+      maxLength: 10,
       validator: (value) {
         if (value.isEmpty) {
           return '入力してください。';
         }
+
+        if (!Validator.isNumeric(value)) {
+          return '数字を入力してください。';
+        }
+
         return null;
       },
       decoration: InputDecoration(

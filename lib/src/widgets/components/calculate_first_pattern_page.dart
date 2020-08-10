@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sugars_check/src/blocs/sugars_bloc.dart';
+import 'package:sugars_calculation/src/blocs/sugars_bloc.dart';
+import 'package:sugars_calculation/src/resources/helpers/validation_helper.dart';
 
 /// 炭水化物と食物繊維の記載があるパターンの計算画面
 class CalculateFirstPatternPage extends StatelessWidget {
@@ -89,10 +90,16 @@ class CalculateFirstPatternPage extends StatelessWidget {
     return TextFormField(
       keyboardType: TextInputType.number,
       textInputAction: TextInputAction.next,
+      maxLength: 10,
       validator: (value) {
         if (value.isEmpty) {
           return '入力してください。';
         }
+
+        if (!Validator.isNumeric(value)) {
+          return '数字を入力してください。';
+        }
+
         return null;
       },
       decoration: InputDecoration(
@@ -110,10 +117,16 @@ class CalculateFirstPatternPage extends StatelessWidget {
     return TextFormField(
       keyboardType: TextInputType.number,
       textInputAction: TextInputAction.next,
+      maxLength: 10,
       validator: (value) {
         if (value.isEmpty) {
           return '入力してください。';
         }
+
+        if (!Validator.isNumeric(value)) {
+          return '数字を入力してください。';
+        }
+
         return null;
       },
       decoration: InputDecoration(
