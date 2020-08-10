@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sugars_check/src/blocs/show_only_carbohydrates_sugar_bloc.dart';
+import 'package:sugars_calculation/src/blocs/show_only_carbohydrates_sugar_bloc.dart';
 
 /// 炭水化物のみの記載パターンの計算画面
 class CalculateSecondPatternPage extends StatelessWidget {
