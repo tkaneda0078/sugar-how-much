@@ -2,39 +2,31 @@ import 'dart:async';
 import 'package:sugars_check/src/resources/helpers/calculation_result_view_helper.dart';
 
 /// 炭水化物と食物繊維の記載があるパターン
-class CalculateFirstPatternEvent {
-  final double carbohydrateQuantity;
+class CalculateEvent {
+  final double carbohydrate;
   final double dietaryFiber;
 
-  CalculateFirstPatternEvent(this.carbohydrateQuantity, this.dietaryFiber);
+  CalculateEvent(this.carbohydrate, this.dietaryFiber);
 }
 
 class SugarsBloc {
-  final _calculateFirstPatternController =
-      StreamController<CalculateFirstPatternEvent>();
+  final _calculateController = StreamController<CalculateEvent>();
 
-  Sink<CalculateFirstPatternEvent> get calculate =>
-      _calculateFirstPatternController.sink;
+  Sink<CalculateEvent> get calculate => _calculateController.sink;
 
   final _resultController = StreamController<Map>();
 
   Stream<Map> get sugars => _resultController.stream;
 
   SugarsBloc() {
-    _calculateFirstPatternController.stream
-        .listen((CalculateFirstPatternEvent event) {
-      var calculationResult = event.carbohydrateQuantity - event.dietaryFiber;
+    _calculateController.stream.listen((CalculateEvent event) {
+      var sugar = event.carbohydrate - event.dietaryFiber;
       _resultController.sink.add({
-        'calculationResult': calculationResult,
-        'sugarDegreeText': CalculationResultViewHelper()
-            .getSugarDegreeText(calculationResult)
+        'sugar': sugar,
+        'sugarDegreeText':
+            CalculationResultViewHelper().getSugarDegreeText(sugar)
       });
     });
-  }
-
-  void calculateSugar(double carbohydrateQuantity, double dietaryFiber) {
-    calculate
-        .add(CalculateFirstPatternEvent(carbohydrateQuantity, dietaryFiber));
   }
 
   void resetCalculationResult() {
@@ -42,7 +34,7 @@ class SugarsBloc {
   }
 
   void dispose() {
-    _calculateFirstPatternController.close();
+    _calculateController.close();
     _resultController.close();
   }
 }

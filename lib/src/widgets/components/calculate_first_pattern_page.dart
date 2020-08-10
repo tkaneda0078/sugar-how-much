@@ -3,10 +3,9 @@ import 'package:sugars_check/src/blocs/sugars_bloc.dart';
 
 /// 炭水化物と食物繊維の記載があるパターンの計算画面
 class CalculateFirstPatternPage extends StatelessWidget {
-
   /// 炭水化物
   /// double
-  double carbohydrateQuantity;
+  double carbohydrate;
 
   /// 食物繊維
   /// double
@@ -37,12 +36,13 @@ class CalculateFirstPatternPage extends StatelessWidget {
 
                     return RichText(
                       text: TextSpan(
-                        text: snapshot.data['calculationResult'].toString(),
+                        text: snapshot.data['sugar'].toString(),
                         style: TextStyle(color: Colors.blue, fontSize: 50),
                         children: <TextSpan>[
                           TextSpan(
-                              text: snapshot.data['sugarDegreeText'].toString() // TODO: レイアウト調整
-                          )
+                              text: snapshot.data['sugarDegreeText']
+                                  .toString() // TODO: レイアウト調整
+                              )
                         ],
                       ),
                     );
@@ -60,8 +60,8 @@ class CalculateFirstPatternPage extends StatelessWidget {
                   onPressed: () {
                     if (formKey.currentState.validate()) {
                       formKey.currentState.save();
-                      sugarsBloc.calculateSugar(
-                          this.carbohydrateQuantity, this.dietaryFiber);
+                      sugarsBloc.calculate.add(
+                          CalculateEvent(this.carbohydrate, this.dietaryFiber));
                     }
                   },
                 ),
@@ -100,7 +100,7 @@ class CalculateFirstPatternPage extends StatelessWidget {
           hintText: '123',
           icon: Icon(Icons.device_unknown)),
       onSaved: (value) {
-        this.carbohydrateQuantity = double.parse(value);
+        this.carbohydrate = double.parse(value);
       },
     );
   }
