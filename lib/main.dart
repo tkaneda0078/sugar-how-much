@@ -4,8 +4,8 @@ import 'src/widgets/components/home_page.dart';
 
 void main() {
   runApp(MaterialApp(
-    title: '糖質計算',
     home: MyApp(),
+//    theme: ThemeData(fontFamily: 'Kosugi'),
     localizationsDelegates: [
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate,
@@ -21,9 +21,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('糖質計算'),
-      ),
       body: HomePage()
     );
   }
