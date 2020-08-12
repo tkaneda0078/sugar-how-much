@@ -6,7 +6,7 @@ import 'package:sugars_calculation/src/resources/helpers/validation_helper.dart'
 class CalculateSecondPatternPage extends StatelessWidget {
   /// 総カロリー
   /// double
-  double totalCalories;
+  double calorie;
 
   /// 脂質
   /// double
@@ -23,71 +23,94 @@ class CalculateSecondPatternPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('糖質計算'),
-      ),
       body: Center(
         child: Form(
           key: formKey,
-          child: Column(
-            children: <Widget>[
-              this.totalCaloriesFormField(context),
-              this.lipidFormField(context),
-              this.proteinFormField(context),
-              StreamBuilder(
-                  stream: sugarsBloc.sugars,
-                  builder: (context, snapshot) {
-                    if (snapshot.data == null || snapshot.data == 0) {
-                      return Text('');
-                    }
+          child: Padding(
+            padding: EdgeInsets.only(left: 50.0, right: 50.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Image.asset('assets/images/sample.jpg',
+                        width: 50, height: 50)),
+                this.totalCaloriesFormField(context),
+                this.lipidFormField(context),
+                this.proteinFormField(context),
+                StreamBuilder(
+                    stream: sugarsBloc.sugars,
+                    builder: (context, snapshot) {
+                      if (snapshot.data == null || snapshot.data == 0) {
+                        return Text('');
+                      }
 
-                    return RichText(
-                      text: TextSpan(
-                        text: snapshot.data['sugar'].toString(),
-                        style: TextStyle(color: Colors.blue, fontSize: 50),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: snapshot.data['sugarDegreeText']
-                                  .toString() // TODO: レイアウト調整
-                              )
-                        ],
+                      return RichText(
+                        text: TextSpan(
+                          text: snapshot.data['sugar'].toString(),
+                          style:
+                              TextStyle(color: Color(0xFF272343), fontSize: 50),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: snapshot.data['sugarDegreeText']
+                                    .toString() // TODO: レイアウト調整
+                                )
+                          ],
+                        ),
+                      );
+                    }),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    RaisedButton(
+                      child: Text('リセット',
+                          style: TextStyle(
+                              color: Color(0xFF272343),
+                              fontWeight: FontWeight.bold)),
+                      color: Color(0xFFbae8e8),
+                      shape: BeveledRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
-                    );
-                  }),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: RaisedButton(
-                  child: Text('計算する'),
-                  color: Colors.yellow, // TODO: カラー変更
-                  shape: BeveledRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
+                      onPressed: () {
+                        formKey.currentState.reset();
+                        sugarsBloc.resetCalculationResult();
+                      },
+                    ),
+                    RaisedButton(
+                      child: Text('計算する',
+                          style: TextStyle(
+                              color: Color(0xFF272343),
+                              fontWeight: FontWeight.bold)),
+                      color: Color(0xFFbae8e8),
+                      shape: BeveledRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
 
-                  /// 送信ボタンクリック時の処理
-                  onPressed: () {
-                    if (formKey.currentState.validate()) {
-                      formKey.currentState.save();
-                      sugarsBloc.calculate.add(CalculateEvent(
-                          this.totalCalories, this.lipid, this.protein));
-                    }
-                  },
+                      /// 送信ボタンクリック時の処理
+                      onPressed: () {
+                        if (formKey.currentState.validate()) {
+                          formKey.currentState.save();
+                          sugarsBloc.calculate.add(CalculateEvent(
+                              this.calorie, this.lipid, this.protein));
+                        }
+                      },
+                    ),
+                  ],
                 ),
-              ),
-              RaisedButton(
-                child: Text('リセット'),
-                color: Colors.yellow, // TODO: カラー変更
-                shape: BeveledRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                onPressed: () {
-                  formKey.currentState.reset();
-                  sugarsBloc.resetCalculationResult();
-                },
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
+      persistentFooterButtons: <Widget>[
+        IconButton(
+          icon: Icon(Icons.arrow_back),
+          color: Color(0xFF272343),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ],
     );
   }
 
@@ -95,11 +118,24 @@ class CalculateSecondPatternPage extends StatelessWidget {
   TextFormField totalCaloriesFormField(BuildContext context) {
     return TextFormField(
       keyboardType: TextInputType.number,
-      textInputAction: TextInputAction.next,
       maxLength: 10,
+      decoration: InputDecoration(
+        labelText: 'カロリー',
+        labelStyle: TextStyle(
+            color: Color(0xFF272343).withOpacity(0.8),
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold),
+        hintText: '10.0',
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0xFF272343), width: 2.0),
+        ),
+      ),
+      onSaved: (value) {
+        this.calorie = double.parse(value);
+      },
       validator: (value) {
         if (value.isEmpty) {
-          return '入力してください。';
+          return 'カロリーを入力してください。';
         }
 
         if (!Validator.isNumeric(value)) {
@@ -107,13 +143,6 @@ class CalculateSecondPatternPage extends StatelessWidget {
         }
 
         return null;
-      },
-      decoration: InputDecoration(
-          labelText: '総カロリーを入力してください。',
-          hintText: '123',
-          icon: Icon(Icons.device_unknown)),
-      onSaved: (value) {
-        this.totalCalories = double.parse(value);
       },
     );
   }
@@ -122,11 +151,24 @@ class CalculateSecondPatternPage extends StatelessWidget {
   TextFormField lipidFormField(BuildContext context) {
     return TextFormField(
       keyboardType: TextInputType.number,
-      textInputAction: TextInputAction.next,
       maxLength: 10,
+      decoration: InputDecoration(
+        labelText: '脂質',
+        labelStyle: TextStyle(
+            color: Color(0xFF272343).withOpacity(0.8),
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold),
+        hintText: '1',
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0xFF272343), width: 2.0),
+        ),
+      ),
+      onSaved: (value) {
+        this.lipid = double.parse(value);
+      },
       validator: (value) {
         if (value.isEmpty) {
-          return '入力してください。';
+          return '脂質を入力してください。';
         }
 
         if (!Validator.isNumeric(value)) {
@@ -134,13 +176,6 @@ class CalculateSecondPatternPage extends StatelessWidget {
         }
 
         return null;
-      },
-      decoration: InputDecoration(
-          labelText: '脂質を入力してください。',
-          hintText: '123',
-          icon: Icon(Icons.device_unknown)),
-      onSaved: (value) {
-        this.lipid = double.parse(value);
       },
     );
   }
@@ -149,11 +184,24 @@ class CalculateSecondPatternPage extends StatelessWidget {
   TextFormField proteinFormField(BuildContext context) {
     return TextFormField(
       keyboardType: TextInputType.number,
-      textInputAction: TextInputAction.next,
       maxLength: 10,
+      decoration: InputDecoration(
+        labelText: 'タンパク質',
+        labelStyle: TextStyle(
+            color: Color(0xFF272343).withOpacity(0.8),
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold),
+        hintText: '1',
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0xFF272343), width: 2.0),
+        ),
+      ),
+      onSaved: (value) {
+        this.protein = double.parse(value);
+      },
       validator: (value) {
         if (value.isEmpty) {
-          return '入力してください。';
+          return 'タンパク質を入力してください。';
         }
 
         if (!Validator.isNumeric(value)) {
@@ -161,13 +209,6 @@ class CalculateSecondPatternPage extends StatelessWidget {
         }
 
         return null;
-      },
-      decoration: InputDecoration(
-          labelText: 'タンパク質を入力してください。',
-          hintText: '123',
-          icon: Icon(Icons.device_unknown)),
-      onSaved: (value) {
-        this.protein = double.parse(value);
       },
     );
   }

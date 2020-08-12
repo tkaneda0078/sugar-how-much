@@ -112,7 +112,7 @@ class CalculateFirstPatternPage extends StatelessWidget {
       decoration: InputDecoration(
         labelText: '炭水化物',
         labelStyle: TextStyle(
-            color: Color(0xFF272343),
+            color: Color(0xFF272343).withOpacity(0.8),
             fontSize: 16.0,
             fontWeight: FontWeight.bold),
         hintText: '10.0',
@@ -145,7 +145,7 @@ class CalculateFirstPatternPage extends StatelessWidget {
       decoration: InputDecoration(
         labelText: '食物繊維',
         labelStyle: TextStyle(
-            color: Color(0xFF272343),
+            color: Color(0xFF272343).withOpacity(0.8),
             fontSize: 16.0,
             fontWeight: FontWeight.bold),
         hintText: '1',
