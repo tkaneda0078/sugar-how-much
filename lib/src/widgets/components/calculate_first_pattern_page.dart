@@ -92,7 +92,7 @@ class CalculateFirstPatternPage extends StatelessWidget {
                         },
                       ),
                       RaisedButton(
-                        child: Text('計算',
+                        child: Text('計算する',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontFamily: 'KosugiMaru',
