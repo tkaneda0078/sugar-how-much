@@ -1,5 +1,5 @@
 name: sugars_calculation
-description: 糖質確認アプリ
+description: 糖質計算アプリ
 
 version: 1.0.0+1
 
@@ -23,3 +23,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+  fonts:
+    - family: KosugiMaru
+      fonts:
+        - asset: fonts/KosugiMaru-Regular.ttf
+          weight: 600

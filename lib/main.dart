@@ -4,8 +4,8 @@ import 'src/widgets/components/home_page.dart';
 
 void main() {
   runApp(MaterialApp(
+    theme: ThemeData(fontFamily: 'KosugiMaru'),
     home: MyApp(),
-//    theme: ThemeData(fontFamily: 'Kosugi'),
     localizationsDelegates: [
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate,

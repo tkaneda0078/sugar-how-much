@@ -15,8 +15,10 @@ class HomePage extends StatelessWidget {
                 text: 'ようこそ',
                 style: TextStyle(
                     color: Color(0xFF272343),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
+                    fontSize: 18,
+                    fontFamily: 'KosugiMaru',
+                    fontWeight: FontWeight.bold
+                ),
               ),
             ),
             Container(
@@ -31,8 +33,10 @@ class HomePage extends StatelessWidget {
                 text: TextSpan(
                   text: '炭水化物と植物繊維が両方記載されている',
                   style: TextStyle(
-                    color: Color(0xFF272343),
-                    fontSize: 18,
+                      color: Color(0xFF272343),
+                      fontSize: 18,
+                      fontFamily: 'KosugiMaru',
+                      fontWeight: FontWeight.bold
                   ),
                 ),
               ),

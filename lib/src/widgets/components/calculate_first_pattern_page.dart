@@ -43,20 +43,31 @@ class CalculateFirstPatternPage extends StatelessWidget {
                         return Container(
                           margin: EdgeInsets.only(bottom: 20.0),
                           child: Center(
-                            child: RichText(
-                              text: TextSpan(
-                                text: '糖質：' +
-                                    snapshot.data['sugar'].toString() +
-                                    'g',
-                                style: TextStyle(
-                                    color: Color(0xFF272343), fontSize: 30),
-                                children: <TextSpan>[
-                                  TextSpan(text: '\n'),
-                                  TextSpan(
-                                      text: snapshot.data['sugarDegreeText']
-                                          .toString())
-                                ],
-                              ),
+                            child: Column(
+                              children: <Widget>[
+                                RichText(
+                                  text: TextSpan(
+                                      text: '糖質：' +
+                                          snapshot.data['sugar'].toString() +
+                                          'g',
+                                      style: TextStyle(
+                                          color: Color(0xFF272343),
+                                          fontSize: 30,
+                                          fontFamily: 'KosugiMaru')
+                                  ),
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                      text: '\n' +
+                                          snapshot.data['sugarDegreeText']
+                                              .toString(),
+                                      style: TextStyle(
+                                          color: Color(0xFF272343),
+                                          fontSize: 30,
+                                          fontFamily: 'KosugiMaru')
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         );
@@ -66,7 +77,11 @@ class CalculateFirstPatternPage extends StatelessWidget {
                     children: <Widget>[
                       RaisedButton(
                         child: Text('リセット',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'KosugiMaru',
+                            )
+                        ),
                         color: Color(0xFFbae8e8),
                         shape: BeveledRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -78,7 +93,11 @@ class CalculateFirstPatternPage extends StatelessWidget {
                       ),
                       RaisedButton(
                         child: Text('計算',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'KosugiMaru',
+                            )
+                        ),
                         color: Color(0xFFbae8e8),
                         shape: BeveledRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -123,7 +142,9 @@ class CalculateFirstPatternPage extends StatelessWidget {
         labelStyle: TextStyle(
             color: Color(0xFF272343).withOpacity(0.8),
             fontSize: 16.0,
-            fontWeight: FontWeight.bold),
+            fontFamily: 'KosugiMaru',
+            fontWeight: FontWeight.bold
+        ),
         hintText: '10.0',
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Color(0xFF272343), width: 2.0),
@@ -156,7 +177,9 @@ class CalculateFirstPatternPage extends StatelessWidget {
         labelStyle: TextStyle(
             color: Color(0xFF272343).withOpacity(0.8),
             fontSize: 16.0,
-            fontWeight: FontWeight.bold),
+            fontFamily: 'KosugiMaru',
+            fontWeight: FontWeight.bold
+        ),
         hintText: '1',
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Color(0xFF272343), width: 2.0),
