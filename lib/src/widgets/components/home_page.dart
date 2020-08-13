@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
                 text: 'ようこそ',
                 style: TextStyle(
                     color: Color(0xFF272343),
-                    fontSize: 18,
+                    fontSize: 25,
                     fontFamily: 'KosugiMaru',
                     fontWeight: FontWeight.bold
                 ),
@@ -31,10 +31,10 @@ class HomePage extends StatelessWidget {
               margin: EdgeInsets.only(top: 30.0, bottom: 30.0),
               child: RichText(
                 text: TextSpan(
-                  text: '炭水化物と植物繊維が両方記載されている',
+                  text: '炭水化物と植物繊維\n両方記載されている',
                   style: TextStyle(
                       color: Color(0xFF272343),
-                      fontSize: 18,
+                      fontSize: 20,
                       fontFamily: 'KosugiMaru',
                       fontWeight: FontWeight.bold
                   ),
