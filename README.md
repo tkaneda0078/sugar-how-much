@@ -1,4 +1,3 @@
-# sugars_calculation
-
-糖質確認アプリ
+## 糖質計算アプリ
+糖質how much
 
