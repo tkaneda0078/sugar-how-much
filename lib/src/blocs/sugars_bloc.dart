@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:sugars_calculation/src/resources/helpers/calculation_result_view_helper.dart';
+import 'package:sugar_how_much/src/resources/helpers/calculation_result_view_helper.dart';
 
 /// 炭水化物と食物繊維の記載があるパターン
 class CalculateEvent {

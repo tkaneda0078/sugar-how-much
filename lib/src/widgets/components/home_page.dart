@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sugars_calculation/src/widgets/screens/calculate_first_pattern_screen.dart';
-import 'package:sugars_calculation/src/widgets/screens/calculate_second_pattern_screen.dart';
+import 'package:sugar_how_much/src/widgets/screens/calculate_first_pattern_screen.dart';
+import 'package:sugar_how_much/src/widgets/screens/calculate_second_pattern_screen.dart';
 
 class HomePage extends StatelessWidget {
   @override
