@@ -125,7 +125,7 @@ class CalculateFirstPatternPage extends StatelessWidget {
           icon: Icon(Icons.arrow_back),
           color: Color(0xFF272343),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(context, true);
           },
         ),
       ],

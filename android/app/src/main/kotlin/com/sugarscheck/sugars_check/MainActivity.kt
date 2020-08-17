@@ -1,4 +1,4 @@
-package com.sugarscheck.sugars_check
+package com.sugarHowMuch.sugar_how_much
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

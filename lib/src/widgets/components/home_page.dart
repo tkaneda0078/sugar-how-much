@@ -1,8 +1,55 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:sugar_how_much/src/widgets/screens/calculate_first_pattern_screen.dart';
-import 'package:sugar_how_much/src/widgets/screens/calculate_second_pattern_screen.dart';
+import 'package:firebase_admob/firebase_admob.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+    testDevices: <String>[],
+    keywords: <String>['diet', 'sugar off', 'weight loss'],
+    contentUrl: '',
+    childDirected: true,
+    nonPersonalizedAds: true,
+  );
+
+  BannerAd _bannerAd;
+
+  BannerAd createBannerAd() {
+    return BannerAd(
+      adUnitId: getBannerAdUnitId(),
+      size: AdSize.banner,
+      targetingInfo: targetingInfo,
+    );
+  }
+
+  void showBannerAd() {
+    _bannerAd
+      ..load()
+      ..show(
+        anchorOffset: 0.0,
+        anchorType: AnchorType.bottom,
+      );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseAdMob.instance.initialize(appId: getAdAppId());
+    _bannerAd = createBannerAd();
+    showBannerAd();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,14 +64,13 @@ class HomePage extends StatelessWidget {
                     color: Color(0xFF272343),
                     fontSize: 25,
                     fontFamily: 'KosugiMaru',
-                    fontWeight: FontWeight.bold
-                ),
+                    fontWeight: FontWeight.bold),
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 50.0, bottom: 50.0),
+              margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
               child: Center(
-                child: Image.asset('assets/images/sugar.jpg'),
+                child: Image.asset('assets/images/sugar.png'),
               ),
             ),
             Container(
@@ -36,8 +82,7 @@ class HomePage extends StatelessWidget {
                       color: Color(0xFF272343),
                       fontSize: 20,
                       fontFamily: 'KosugiMaru',
-                      fontWeight: FontWeight.bold
-                  ),
+                      fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -54,12 +99,16 @@ class HomePage extends StatelessWidget {
                   shape: BeveledRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CalculateFirstPatternScreen()),
-                    );
+                  onPressed: () async {
+                    _bannerAd.dispose();
+                    _bannerAd = null;
+                    var _isReturnTransition = await Navigator.pushNamed(
+                        context, '/calculate_first_pattern');
+
+                    if (_isReturnTransition) {
+                      _bannerAd = createBannerAd();
+                      showBannerAd();
+                    }
                   },
                 ),
                 RaisedButton(
@@ -71,12 +120,16 @@ class HomePage extends StatelessWidget {
                   shape: BeveledRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CalculateSecondPatternScreen()),
-                    );
+                  onPressed: () async {
+                    _bannerAd.dispose();
+                    _bannerAd = null;
+                    var _isReturnTransition = await Navigator.pushNamed(
+                        context, '/calculate_second_pattern');
+
+                    if (_isReturnTransition) {
+                      _bannerAd = createBannerAd();
+                      showBannerAd();
+                    }
                   },
                 ),
               ],
@@ -86,4 +139,24 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+}
+
+String getAdAppId() {
+  if (Platform.isIOS) {
+    return null;
+  } else if (Platform.isAndroid) {
+    return DotEnv().env['ADMOB_APP_ID_OF_ANDROID'];
+  }
+
+  return null;
+}
+
+String getBannerAdUnitId() {
+  if (Platform.isIOS) {
+    return null;
+  } else if (Platform.isAndroid) {
+    return DotEnv().env['ADMOB_UNIT_ID_OF_ANDROID'];
+  }
+
+  return null;
 }
