@@ -57,27 +57,18 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            RichText(
-              text: TextSpan(
-                text: 'ようこそ',
-                style: TextStyle(
-                    color: Color(0xFF272343),
-                    fontSize: 25,
-                    fontFamily: 'KosugiMaru',
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
             Container(
               margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
               child: Center(
-                child: Image.asset('assets/images/sugar.png'),
+                child: Image.asset('assets/images/sugar.png',
+                    width: 150, height: 150),
               ),
             ),
             Container(
               margin: EdgeInsets.only(top: 30.0, bottom: 30.0),
               child: RichText(
                 text: TextSpan(
-                  text: '炭水化物と植物繊維\n両方記載されている',
+                  text: '炭水化物と植物繊維\n両方記載されていますか？',
                   style: TextStyle(
                       color: Color(0xFF272343),
                       fontSize: 20,

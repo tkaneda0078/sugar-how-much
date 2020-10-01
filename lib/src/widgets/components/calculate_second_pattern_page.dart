@@ -34,7 +34,7 @@ class CalculateSecondPatternPage extends StatelessWidget {
                 children: <Widget>[
                   Align(
                       alignment: Alignment.centerLeft,
-                      child: Image.asset('assets/images/sample.jpg',
+                      child: Image.asset('assets/images/sugars.png',
                           width: 50, height: 50)),
                   this.totalCaloriesFormField(context),
                   this.lipidFormField(context),
