@@ -85,7 +85,9 @@ class _HomePageState extends State<HomePage> {
                   child: Text('はい',
                       style: TextStyle(
                           color: Color(0xFF272343),
-                          fontWeight: FontWeight.bold)),
+                          fontWeight: FontWeight.bold
+                      )
+                  ),
                   color: Color(0xFFbae8e8),
                   shape: BeveledRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -94,8 +96,10 @@ class _HomePageState extends State<HomePage> {
                     _bannerAd.dispose();
                     _bannerAd = null;
                     var _isReturnTransition = await Navigator.pushNamed(
-                        context, '/calculate_first_pattern');
+                        context, '/calculate_first_pattern'
+                    );
 
+                    // 遷移先からのリターンか
                     if (_isReturnTransition) {
                       _bannerAd = createBannerAd();
                       showBannerAd();
@@ -106,7 +110,9 @@ class _HomePageState extends State<HomePage> {
                   child: Text('いいえ',
                       style: TextStyle(
                           color: Color(0xFF272343),
-                          fontWeight: FontWeight.bold)),
+                          fontWeight: FontWeight.bold
+                      )
+                  ),
                   color: Color(0xFFbae8e8),
                   shape: BeveledRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -115,8 +121,12 @@ class _HomePageState extends State<HomePage> {
                     _bannerAd.dispose();
                     _bannerAd = null;
                     var _isReturnTransition = await Navigator.pushNamed(
-                        context, '/calculate_second_pattern');
+                        context, '/calculate_second_pattern'
+                    );
 
+                    print(ModalRoute.of(context).settings.name);
+
+                    // 遷移先からのリターンか
                     if (_isReturnTransition) {
                       _bannerAd = createBannerAd();
                       showBannerAd();
@@ -134,20 +144,20 @@ class _HomePageState extends State<HomePage> {
 
 String getAdAppId() {
   if (Platform.isIOS) {
-    return null;
+    return '';
   } else if (Platform.isAndroid) {
     return DotEnv().env['ADMOB_APP_ID_OF_ANDROID'];
   }
 
-  return null;
+  return '';
 }
 
 String getBannerAdUnitId() {
   if (Platform.isIOS) {
-    return null;
+    return '';
   } else if (Platform.isAndroid) {
     return DotEnv().env['ADMOB_UNIT_ID_OF_ANDROID'];
   }
 
-  return null;
+  return '';
 }
