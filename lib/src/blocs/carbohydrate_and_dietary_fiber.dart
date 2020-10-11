@@ -1,17 +1,14 @@
 import 'dart:async';
 import 'package:sugar_how_much/src/resources/helpers/calculation_result_view_helper.dart';
 
-/// 炭水化物のみ記載があるパターン
-/// TODO: ファイル分けする
 class CalculateEvent {
-  final double calorie;
-  final double lipid;
-  final double protein;
+  final double carbohydrate;
+  final double dietaryFiber;
 
-  CalculateEvent(this.calorie, this.lipid, this.protein);
+  CalculateEvent(this.carbohydrate, this.dietaryFiber);
 }
 
-class ShowOnlyCarbohydratesSugarBloc {
+class CarbohydrateAndDietaryFiberBloc {
   final _calculateController = StreamController<CalculateEvent>();
 
   Sink<CalculateEvent> get calculate => _calculateController.sink;
@@ -20,23 +17,15 @@ class ShowOnlyCarbohydratesSugarBloc {
 
   Stream<Map> get sugars => _resultController.stream;
 
-  ShowOnlyCarbohydratesSugarBloc() {
+  CarbohydrateAndDietaryFiberBloc() {
     _calculateController.stream.listen((CalculateEvent event) {
-      var sugar = _calculateSugar(event.calorie, event.lipid, event.protein);
+      var sugar = event.carbohydrate - event.dietaryFiber;
       _resultController.sink.add({
         'sugar': sugar,
         'sugarDegreeText':
             CalculationResultViewHelper().getSugarDegreeText(sugar)
       });
     });
-  }
-
-  /// 炭水化物のみ表示時の計算式
-  /// 糖質(g) = ((カロリー) – (脂質g × 9) - (タンパク質 g× 4)) ÷ 4
-  double _calculateSugar(double totalCalories, double lipid, double protein) {
-    var sugar = (totalCalories - (lipid * 9) - (protein * 4)) / 4;
-
-    return sugar;
   }
 
   void resetCalculationResult() {

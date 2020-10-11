@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:sugar_how_much/src/blocs/show_only_carbohydrates_sugar_bloc.dart';
+import 'package:sugar_how_much/src/blocs/carbohydrate_and_dietary_fiber.dart';
 import 'package:sugar_how_much/src/resources/helpers/validation_helper.dart';
 
-class CalorieAndLipidAndProtein extends StatelessWidget {
-  /// 総カロリー
+class CarbohydrateAndDietaryFiber extends StatelessWidget {
+  /// 炭水化物
   /// double
-  double calorie;
+  double carbohydrate;
 
-  /// 脂質
+  /// 食物繊維
   /// double
-  double lipid;
-
-  /// タンパク質
-  /// double
-  double protein;
+  double dietaryFiber;
 
   final formKey = GlobalKey<FormState>();
-  final ShowOnlyCarbohydratesSugarBloc sugarsBloc =
-      ShowOnlyCarbohydratesSugarBloc();
+  final CarbohydrateAndDietaryFiberBloc bloc = CarbohydrateAndDietaryFiberBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +30,10 @@ class CalorieAndLipidAndProtein extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: Image.asset('assets/images/sugars.png',
                           width: 50, height: 50)),
-                  this.totalCaloriesFormField(context),
-                  this.lipidFormField(context),
-                  this.proteinFormField(context),
+                  this.carbohydrateQuantityFormField(context),
+                  this.dietaryFiberFormField(context),
                   StreamBuilder(
-                      stream: sugarsBloc.sugars,
+                      stream: bloc.sugars,
                       builder: (context, snapshot) {
                         if (snapshot.data == null || snapshot.data == 0) {
                           return Text('');
@@ -83,9 +77,9 @@ class CalorieAndLipidAndProtein extends StatelessWidget {
                       RaisedButton(
                         child: Text('リセット',
                             style: TextStyle(
-                                color: Color(0xFF272343),
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'KosugiMaru')
+                                fontFamily: 'KosugiMaru',
+                            )
                         ),
                         color: Color(0xFFbae8e8),
                         shape: BeveledRectangleBorder(
@@ -93,15 +87,15 @@ class CalorieAndLipidAndProtein extends StatelessWidget {
                         ),
                         onPressed: () {
                           formKey.currentState.reset();
-                          sugarsBloc.resetCalculationResult();
+                          bloc.resetCalculationResult();
                         },
                       ),
                       RaisedButton(
                         child: Text('計算する',
                             style: TextStyle(
-                                color: Color(0xFF272343),
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'KosugiMaru')
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'KosugiMaru',
+                            )
                         ),
                         color: Color(0xFFbae8e8),
                         shape: BeveledRectangleBorder(
@@ -112,8 +106,8 @@ class CalorieAndLipidAndProtein extends StatelessWidget {
                         onPressed: () {
                           if (formKey.currentState.validate()) {
                             formKey.currentState.save();
-                            sugarsBloc.calculate.add(CalculateEvent(
-                                this.calorie, this.lipid, this.protein));
+                            bloc.calculate.add(CalculateEvent(
+                                this.carbohydrate, this.dietaryFiber));
                           }
                         },
                       ),
@@ -137,13 +131,13 @@ class CalorieAndLipidAndProtein extends StatelessWidget {
     );
   }
 
-  /// 総カロリー用FormField
-  TextFormField totalCaloriesFormField(BuildContext context) {
+  /// 炭水化物用FormField
+  TextFormField carbohydrateQuantityFormField(BuildContext context) {
     return TextFormField(
       keyboardType: TextInputType.number,
       maxLength: 10,
       decoration: InputDecoration(
-        labelText: 'カロリー',
+        labelText: '炭水化物',
         labelStyle: TextStyle(
             color: Color(0xFF272343).withOpacity(0.8),
             fontSize: 16.0,
@@ -156,11 +150,11 @@ class CalorieAndLipidAndProtein extends StatelessWidget {
         ),
       ),
       onSaved: (value) {
-        this.calorie = double.parse(value);
+        this.carbohydrate = double.parse(value);
       },
       validator: (value) {
         if (value.isEmpty) {
-          return 'カロリーを入力してください。';
+          return '炭水化物を入力してください。';
         }
 
         if (!Validator.isNumeric(value)) {
@@ -172,13 +166,13 @@ class CalorieAndLipidAndProtein extends StatelessWidget {
     );
   }
 
-  /// 脂質用FormField
-  TextFormField lipidFormField(BuildContext context) {
+  /// 食物繊維用FormField
+  TextFormField dietaryFiberFormField(BuildContext context) {
     return TextFormField(
       keyboardType: TextInputType.number,
       maxLength: 10,
       decoration: InputDecoration(
-        labelText: '脂質',
+        labelText: '食物繊維',
         labelStyle: TextStyle(
             color: Color(0xFF272343).withOpacity(0.8),
             fontSize: 16.0,
@@ -191,46 +185,11 @@ class CalorieAndLipidAndProtein extends StatelessWidget {
         ),
       ),
       onSaved: (value) {
-        this.lipid = double.parse(value);
+        this.dietaryFiber = double.parse(value);
       },
       validator: (value) {
         if (value.isEmpty) {
-          return '脂質を入力してください。';
-        }
-
-        if (!Validator.isNumeric(value)) {
-          return '数字を入力してください。';
-        }
-
-        return null;
-      },
-    );
-  }
-
-  /// タンパク質用FormField
-  TextFormField proteinFormField(BuildContext context) {
-    return TextFormField(
-      keyboardType: TextInputType.number,
-      maxLength: 10,
-      decoration: InputDecoration(
-        labelText: 'タンパク質',
-        labelStyle: TextStyle(
-            color: Color(0xFF272343).withOpacity(0.8),
-            fontSize: 16.0,
-            fontFamily: 'KosugiMaru',
-            fontWeight: FontWeight.bold
-        ),
-        hintText: '1',
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Color(0xFF272343), width: 2.0),
-        ),
-      ),
-      onSaved: (value) {
-        this.protein = double.parse(value);
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'タンパク質を入力してください。';
+          return '食物繊維を入力してください。';
         }
 
         if (!Validator.isNumeric(value)) {
