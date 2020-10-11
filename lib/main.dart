@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'src/widgets/components/home_page.dart';
-import 'src/widgets/screens/calculate_first_pattern_screen.dart';
-import 'src/widgets/screens/calculate_second_pattern_screen.dart';
+import 'src/widgets/screens/home.dart';
+import 'src/widgets/screens/calculation/carbohydrate_and_dietary_fiber.dart';
+import 'src/widgets/screens/calculation/calorie_and_lipid_and_protein.dart';
 
 Future main() async {
   await DotEnv().load('.env');
@@ -19,9 +19,11 @@ Future main() async {
     ],
     initialRoute: '/',
     routes: {
-      '/': (context) => HomePage(),
-      '/calculate_first_pattern': (context) => CalculateFirstPatternScreen(),
-      '/calculate_second_pattern': (context) => CalculateSecondPatternScreen(),
+      '/': (context) => HomeScreen(),
+      '/calculation/carbohydrate_and_dietary_fiber': (context) =>
+          CarbohydrateAndDietaryFiberScreen(),
+      '/calculation/calorie_and_lipid_and_protein': (context) =>
+          CalorieAndLipidAndProteinScreen(),
     },
   ));
 }
@@ -29,6 +31,6 @@ Future main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: HomePage());
+    return Scaffold(body: HomeScreen());
   }
 }

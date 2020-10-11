@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class HomePage extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
     testDevices: <String>[],
     keywords: <String>['diet', 'sugar off', 'weight loss'],
@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.only(top: 30.0, bottom: 30.0),
               child: RichText(
                 text: TextSpan(
-                  text: '炭水化物と植物繊維\n両方記載されていますか？',
+                  text: '炭水化物と食物繊維\n両方記載されていますか？',
                   style: TextStyle(
                       color: Color(0xFF272343),
                       fontSize: 20,
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                     _bannerAd.dispose();
                     _bannerAd = null;
                     var _isReturnTransition = await Navigator.pushNamed(
-                        context, '/calculate_first_pattern'
+                        context, '/calculation/carbohydrate_and_dietary_fiber'
                     );
 
                     // 遷移先からのリターンか
@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                     _bannerAd.dispose();
                     _bannerAd = null;
                     var _isReturnTransition = await Navigator.pushNamed(
-                        context, '/calculate_second_pattern'
+                        context, '/calculation/calorie_and_lipid_and_protein'
                     );
 
                     print(ModalRoute.of(context).settings.name);

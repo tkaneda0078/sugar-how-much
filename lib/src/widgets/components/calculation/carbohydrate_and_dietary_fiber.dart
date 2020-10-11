@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sugar_how_much/src/blocs/sugars_bloc.dart';
 import 'package:sugar_how_much/src/resources/helpers/validation_helper.dart';
 
-/// 炭水化物と食物繊維の記載があるパターンの計算画面
-class CalculateFirstPatternPage extends StatelessWidget {
+class CarbohydrateAndDietaryFiber extends StatelessWidget {
   /// 炭水化物
   /// double
   double carbohydrate;

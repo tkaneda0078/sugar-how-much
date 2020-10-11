@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sugar_how_much/src/blocs/show_only_carbohydrates_sugar_bloc.dart';
 import 'package:sugar_how_much/src/resources/helpers/validation_helper.dart';
 
-/// 炭水化物のみの記載パターンの計算画面
-class CalculateSecondPatternPage extends StatelessWidget {
+class CalorieAndLipidAndProtein extends StatelessWidget {
   /// 総カロリー
   /// double
   double calorie;
