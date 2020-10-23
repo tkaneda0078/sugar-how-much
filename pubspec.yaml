@@ -1,7 +1,7 @@
 name: sugar_how_much
 description: 糖質計算アプリ
 
-version: 1.0.2+2
+version: 1.0.0+4
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
